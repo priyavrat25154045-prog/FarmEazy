@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmEazy - Farm Machinery Rental Marketplace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        @page {
+            size: 1920px 1080px;
+            margin: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #06090e;
+            color: #f8fafc;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* 16:9 Presentation Slide Container */
+        .slide {
+            width: 1920px;
+            height: 1080px;
+            page-break-after: always;
+            break-after: page;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 60px 85px;
+            position: relative;
+            background: radial-gradient(circle at 85% 15%, #0f2318 0%, #060c11 55%, #030609 100%);
+            overflow: hidden;
+        }
+
+        /* Top Accent Rainbow Line */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 7px;
+            background: linear-gradient(90deg, #10b981 0%, #22c55e 35%, #06b6d4 70%, #f59e0b 100%);
+            z-index: 20;
+        }
+
+        /* Background ambient glow */
+        .ambient-glow {
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(34, 197, 94, 0.08) 0%, rgba(34, 197, 94, 0) 70%);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .glow-top-right { top: -200px; right: -200px; }
+        .glow-bottom-left { bottom: -200px; left: -200px; background: radial-gradient(circle, rgba(6, 182, 212, 0.08) 0%, rgba(6, 182, 212, 0) 70%); }
+
+        /* Slide Header */
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .brand-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            color: #22c55e;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-badge .logo-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #22c55e, #10b981);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
+        }
+
+        .slide-topic {
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #94a3b8;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 8px 22px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Slide Title Area */
+        .slide-title-area {
+            margin: 22px 0 16px 0;
+            position: relative;
+            z-index: 10;
+        }
+
+        .slide-title-area h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 42px;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .slide-title-area h2 .title-tag {
+            font-size: 14px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            padding: 4px 14px;
+            border-radius: 6px;
+        }
+
+        .slide-title-area p {
+            font-size: 18px;
+            color: #94a3b8;
+            margin-top: 6px;
+            max-width: 1400px;
+        }
+
+        /* Main Content Container */
+        .slide-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+            margin: 10px 0;
+        }
+
+        /* Slide Footer */
+        .slide-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            padding-top: 18px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .footer-pill {
+            background: rgba(34, 197, 94, 0.1);
+            color: #4ade80;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+        }
+
+        /* ================== REUSABLE COMPONENTS ================== */
+        /* Grids */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 36px;
+            width: 100%;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            width: 100%;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%;
+        }
+
+        .grid-split-img {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 44px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .grid-split-img-reverse {
+            display: grid;
+            grid-template-columns: 0.85fr 1.15fr;
+            gap: 44px;
+            width: 100%;
+            align-items: center;
+        }
+
+        /* Glassmorphism Cards */
+        .glass-card {
+            background: rgba(15, 23, 42, 0.55);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 32px 28px;
+            backdrop-filter: blur(12px);
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .glass-card.highlight {
+            border-color: rgba(34, 197, 94, 0.35);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%);
+        }
+
+        .glass-card.highlight-blue {
+            border-color: rgba(56, 189, 248, 0.35);
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%);
+        }
+
+        .glass-card.highlight-amber {
+            border-color: rgba(245, 158, 11, 0.35);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%);
+        }
+
+        .card-icon-badge {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(34, 197, 94, 0.15);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin-bottom: 20px;
+        }
+
+        .card-icon-badge.blue {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: rgba(56, 189, 248, 0.3);
+        }
+
+        .card-icon-badge.amber {
+            background: rgba(245, 158, 11, 0.15);
+            border-color: rgba(245, 158, 11, 0.3);
+        }
+
+        .card-icon-badge.purple {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .glass-card h3 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 23px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 12px;
+            line-height: 1.25;
+        }
+
+        .glass-card p {
+            font-size: 15.5px;
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
+        /* Image Containers */
+        .image-frame {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1.5px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            position: relative;
+            height: 100%;
+            min-height: 480px;
+        }
+
+        .image-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .image-caption-chip {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(6, 12, 17, 0.88);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 14px 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(12px);
+        }
+
+        .image-caption-chip .chip-title {
+            color: #4ade80;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .image-caption-chip .chip-desc {
+            font-size: 13.5px;
+            color: #e2e8f0;
+        }
+
+        /* Bullet & Check Lists */
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            font-size: 16.5px;
+            color: #e2e8f0;
+            line-height: 1.5;
+        }
+
+        .feature-list li .bullet-icon {
+            width: 26px;
+            height: 26px;
+            min-width: 26px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.5);
+            color: #4ade80;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            margin-top: 2px;
+        }
+
+        .feature-list li .bullet-icon.blue {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: rgba(56, 189, 248, 0.5);
+            color: #38bdf8;
+        }
+
+        .feature-list li .bullet-icon.amber {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: rgba(245, 158, 11, 0.5);
+            color: #fbbf24;
+        }
+
+        /* Outline Slide Specific */
+        .outline-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            width: 100%;
+        }
+
+        .outline-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 22px 28px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            backdrop-filter: blur(8px);
+        }
+
+        .outline-number {
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: #34d399;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(52, 211, 153, 0.12);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .outline-text h4 {
+            font-size: 20px;
+            color: #ffffff;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .outline-text span {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+
+        /* Stat Counter Boxes */
+        .stat-card {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 18px;
+            padding: 28px 22px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #06b6d4);
+        }
+
+        .stat-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 46px;
+            font-weight: 900;
+            color: #4ade80;
+            line-height: 1.1;
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .stat-lbl {
+            font-size: 15px;
+            color: #cbd5e1;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+
+        /* Tech Tag Pills */
+        .tech-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13.5px;
+            color: #e2e8f0;
+            font-family: 'JetBrains Mono', monospace;
+            margin: 4px;
+        }
+
+        /* Workflow Pipeline */
+        .pipeline-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            gap: 12px;
+            margin-top: 10px;
+        }
+
+        .pipeline-step {
+            flex: 1;
+            background: rgba(15, 23, 42, 0.7);
+            border: 1.5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 22px 18px;
+            text-align: center;
+            position: relative;
+        }
+
+        .pipeline-step.active {
+            border-color: rgba(34, 197, 94, 0.5);
+            background: linear-gradient(135deg, rgba(34, 197, 94, 0.12) 0%, rgba(15, 23, 42, 0.8) 100%);
+        }
+
+        .pipeline-step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #22c55e;
+            color: #052e16;
+            font-weight: 800;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px auto;
+        }
+
+        .pipeline-step h5 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .pipeline-step p {
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.4;
+        }
+
+        .pipeline-arrow {
+            font-size: 24px;
+            color: #4ade80;
+            font-weight: 900;
+        }
+
+        /* ================== SLIDE 1 SPECIFIC (COVER) ================== */
+        .cover-slide {
+            background: linear-gradient(135deg, rgba(4, 12, 8, 0.82) 0%, rgba(3, 7, 12, 0.88) 100%),
+                        url('images/smart_agri_drone.jpg') center/cover no-repeat;
+            justify-content: space-between;
+        }
+
+        .cover-badge-top {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(34, 197, 94, 0.25);
+            border: 1.5px solid rgba(74, 222, 128, 0.6);
+            color: #86efac;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 8px 22px;
+            border-radius: 999px;
+            backdrop-filter: blur(8px);
+            margin-bottom: 24px;
+        }
+
+        .cover-h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 80px;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.05;
+            letter-spacing: -1.5px;
+            margin-bottom: 18px;
+        }
+
+        .cover-h1 span {
+            background: linear-gradient(135deg, #4ade80 0%, #38bdf8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cover-sub {
+            font-size: 26px;
+            font-weight: 600;
+            color: #e2e8f0;
+            margin-bottom: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        .cover-sub strong {
+            color: #4ade80;
+        }
+
+        .cover-desc {
+            font-size: 19px;
+            color: #94a3b8;
+            max-width: 900px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .cover-meta-bar {
+            display: inline-flex;
+            gap: 48px;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            padding: 20px 42px;
+            border-radius: 18px;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .cover-meta-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .cover-meta-item .meta-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            font-weight: 700;
+        }
+
+        .cover-meta-item .meta-value {
+            font-size: 17px;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .cover-meta-item .meta-value.accent {
+            color: #4ade80;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== SLIDE 1: TITLE & COVER ==================== -->
+    <section class="slide cover-slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <header class="slide-header" style="border: none;">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">ACADEMIC & STARTUP PROJECT PRESENTATION</div>
+        </header>
+
+        <div style="margin: auto 0; position: relative; z-index: 10;">
+            <div class="cover-badge-top">
+                <span>⚡</span> Mini Project Presentation 2026
+            </div>
+            <h1 class="cover-h1">Farm<span>Eazy</span></h1>
+            <div class="cover-sub">Topic: <strong>Farm Machinery Rental Marketplace</strong></div>
+            <p class="cover-desc">
+                An on-demand Uber-like platform empowering Indian farmers through transparent machinery booking, verified operators, live GPS radar telemetry, smart fuel estimation, and AI crop diagnostics.
+            </p>
+
+            <div class="cover-meta-bar">
+                <div class="cover-meta-item">
+                    <span class="meta-label">Presented By</span>
+                    <span class="meta-value accent">FarmEazy Core Team</span>
+                </div>
+                <div class="cover-meta-item">
+                    <span class="meta-label">Domain</span>
+                    <span class="meta-value">Agri-Tech & Rural Mobility</span>
+                </div>
+                <div class="cover-meta-item">
+                    <span class="meta-label">Institution</span>
+                    <span class="meta-value">AKGEC Ghaziabad</span>
+                </div>
+                <div class="cover-meta-item">
+                    <span class="meta-label">Live Platform</span>
+                    <span class="meta-value" style="color: #38bdf8;">http://localhost:3000</span>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer" style="border: none;">
+            <div class="footer-left">
+                <span>Mini-Project Presentation Format</span>
+                <span class="footer-pill">Slide 01 / 10</span>
+            </div>
+            <span>FarmEazy Platform Architecture • All Rights Reserved</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 2: OUTLINE ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <div class="ambient-glow glow-bottom-left"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Agenda & Structure</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>Presentation Outline <span class="title-tag">Overview</span></h2>
+            <p>Comprehensive roadmap of today's technical presentation and system walkthrough</p>
+        </div>
+
+        <div class="slide-content">
+            <div class="outline-grid">
+                <div class="outline-item">
+                    <div class="outline-number">01</div>
+                    <div class="outline-text">
+                        <h4>Introduction & Domain Overview</h4>
+                        <span>Agri-tech background, rural mechanization, and market context</span>
+                    </div>
+                </div>
+
+                <div class="outline-item">
+                    <div class="outline-number">02</div>
+                    <div class="outline-text">
+                        <h4>Problem Statement & Objectives</h4>
+                        <span>Core smallholder pain points, machinery idle time, and core goals</span>
+                    </div>
+                </div>
+
+                <div class="outline-item">
+                    <div class="outline-number">03</div>
+                    <div class="outline-text">
+                        <h4>Methodology & System Architecture</h4>
+                        <span>4-step operational pipeline and full-stack software architecture</span>
+                    </div>
+                </div>
+
+                <div class="outline-item">
+                    <div class="outline-number">04</div>
+                    <div class="outline-text">
+                        <h4>Implementation & Technical Tools</h4>
+                        <span>Node.js, Express, SQLite, Security, Mandi API & Workflow States</span>
+                    </div>
+                </div>
+
+                <div class="outline-item">
+                    <div class="outline-number">05</div>
+                    <div class="outline-text">
+                        <h4>Experiments and Results</h4>
+                        <span>Live GPS Radar, Farm Pooling, Fuel Estimator & Impact Metrics</span>
+                    </div>
+                </div>
+
+                <div class="outline-item">
+                    <div class="outline-number">06</div>
+                    <div class="outline-text">
+                        <h4>Conclusion, Future Scope & References</h4>
+                        <span>Summary, UPI Escrow, IoT sensors, Satellite NDVI & references</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>Presentation Roadmap</span>
+                <span class="footer-pill">Slide 02 / 10</span>
+            </div>
+            <span>AKGEC Ghaziabad • Mini Project 2026</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 3: INTRODUCTION ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Introduction & Domain</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>Introduction & Domain Overview <span class="title-tag">Agri-Tech</span></h2>
+            <p>Democratizing advanced farm mechanization for Indian agriculture through shared economy</p>
+        </div>
+
+        <div class="slide-content">
+            <div class="grid-split-img">
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <div class="glass-card highlight">
+                        <div class="card-icon-badge">🌾</div>
+                        <h3>The FarmEazy Vision</h3>
+                        <p style="font-size: 17.5px; line-height: 1.7; color: #f1f5f9;">
+                            <strong>FarmEazy</strong> is an on-demand farm machinery rental marketplace engineered specifically for Indian farmers. It connects farmers who need tractors, harvesters, and specialized implements with equipment owners who have idle capacity.
+                        </p>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="glass-card">
+                            <div class="card-icon-badge blue">📱</div>
+                            <h3 style="font-size: 20px;">On-Demand Access</h3>
+                            <p>Mobile booking, transparent hourly/acre pricing, and verified machine operators eliminate local middleman exploitation.</p>
+                        </div>
+
+                        <div class="glass-card">
+                            <div class="card-icon-badge amber">📡</div>
+                            <h3 style="font-size: 20px;">Intelligent Ecosystem</h3>
+                            <p>Combines Live GPS Radar tracking, Community Farm Pooling, Smart Fuel Estimation, and AI-assisted crop diagnostics.</p>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 14px; padding: 16px 22px; display: flex; align-items: center; gap: 14px;">
+                        <span style="font-size: 24px;">📍</span>
+                        <div style="font-size: 15px; color: #e2e8f0;">
+                            <strong>Target Domain:</strong> Agri-tech, rural mobility, shared farm economy, and agricultural mechanization.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="image-frame">
+                    <img src="images/farmer_mobile_tech.jpg" alt="Farmer using FarmEazy platform on smartphone">
+                    <div class="image-caption-chip">
+                        <div class="chip-title">Live Field Demonstration</div>
+                        <div class="chip-desc">Farmer browsing available tractors and harvesters directly from his crop field</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>Introduction</span>
+                <span class="footer-pill">Slide 03 / 10</span>
+            </div>
+            <span>FarmEazy • Agri-Tech & Mobility</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 4: PROBLEM STATEMENT & OBJECTIVES ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <div class="ambient-glow glow-bottom-left"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Problem & Objectives</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>Problem Statement & Objectives <span class="title-tag">Core Focus</span></h2>
+            <p>Bridging the critical gap between machine affordability for farmers and asset utilization for owners</p>
+        </div>
+
+        <div class="slide-content">
+            <div class="grid-2">
+                <!-- Column 1: Problem Statement -->
+                <div class="glass-card" style="border-color: rgba(239, 68, 68, 0.35); background: linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%);">
+                    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px;">
+                        <div class="card-icon-badge" style="background: rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.4); color: #ef4444; margin: 0;">⚠️</div>
+                        <h3 style="font-size: 26px; color: #fca5a5; margin: 0;">Problem Statement</h3>
+                    </div>
+
+                    <ul class="feature-list">
+                        <li>
+                            <div class="bullet-icon" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); color: #f87171;">✕</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 17px; display: block; margin-bottom: 4px;">High Capital Cost & Labour Scarcity:</strong>
+                                Smallholder farmers face prohibitive machinery purchase costs (₹6L–₹15L+) alongside acute seasonal labour shortages during sowing and tilling.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); color: #f87171;">✕</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 17px; display: block; margin-bottom: 4px;">Critical 7–10 Day Timing Bottleneck:</strong>
+                                Equipment is frequently unavailable during critical sowing and harvesting windows, leading to yield loss and crop damage.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon" style="background: rgba(239, 68, 68, 0.2); border-color: rgba(239, 68, 68, 0.5); color: #f87171;">✕</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 17px; display: block; margin-bottom: 4px;">40%+ Asset Idle Time:</strong>
+                                More than 40% of tractors and specialized implements remain idle outside peak cycles because owners lack an organized demand aggregation channel.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Column 2: Objectives -->
+                <div class="glass-card highlight">
+                    <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 24px;">
+                        <div class="card-icon-badge" style="margin: 0;">🎯</div>
+                        <h3 style="font-size: 26px; color: #4ade80; margin: 0;">Project Objectives</h3>
+                    </div>
+
+                    <ul class="feature-list">
+                        <li>
+                            <div class="bullet-icon">✓</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 17px; display: block; margin-bottom: 4px;">Transparent Discovery & Booking:</strong>
+                                Make equipment search, rate comparison, and slot reservations simple, fair, and accessible directly via smartphones.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon">✓</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 17px; display: block; margin-bottom: 4px;">Maximize Machine Utilization & Owner Income:</strong>
+                                Provide tractor owners a steady stream of verified rental bookings, boosting annual asset return on investment.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon">✓</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 17px; display: block; margin-bottom: 4px;">Real-Time Dispatch Visibility:</strong>
+                                Eliminate uncertainty and dispatch delays through live GPS radar tracking and certified verified machine drivers.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon">✓</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 17px; display: block; margin-bottom: 4px;">Community Machine Pooling:</strong>
+                                Enable contiguous smallholder farmers to group bookings, sharing transportation overheads and cutting per-acre costs.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>Problem Statement & Objectives</span>
+                <span class="footer-pill">Slide 04 / 10</span>
+            </div>
+            <span>FarmEazy • AKGEC Ghaziabad</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 5: METHODOLOGY & ARCHITECTURE ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Methodology & Architecture</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>Methodology & System Architecture <span class="title-tag">System Design</span></h2>
+            <p>End-to-end operational workflow pipeline integrated with scalable modular software services</p>
+        </div>
+
+        <div class="slide-content" style="flex-direction: column; justify-content: center; gap: 32px;">
+            <!-- Operational Pipeline -->
+            <div style="width: 100%;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #4ade80;">Operational Methodology Pipeline</span>
+                    <span style="font-size: 13.5px; color: #94a3b8;">4-Stage Transparent Cycle</span>
+                </div>
+                <div class="pipeline-container">
+                    <div class="pipeline-step active">
+                        <div class="pipeline-step-num">1</div>
+                        <h5>Search & Select</h5>
+                        <p>Farmer filters by machine type, HP, attachments, distance & hourly/acre rate.</p>
+                    </div>
+                    <div class="pipeline-arrow">➔</div>
+                    <div class="pipeline-step active">
+                        <div class="pipeline-step-num">2</div>
+                        <h5>Confirm & Assign</h5>
+                        <p>Owner gets real-time notification, confirms machine slot, and assigns verified driver.</p>
+                    </div>
+                    <div class="pipeline-arrow">➔</div>
+                    <div class="pipeline-step active">
+                        <div class="pipeline-step-num">3</div>
+                        <h5>Live Dispatch</h5>
+                        <p>Tractor deploys to farm with live GPS radar tracking, ETA, and speed telemetry.</p>
+                    </div>
+                    <div class="pipeline-arrow">➔</div>
+                    <div class="pipeline-step active">
+                        <div class="pipeline-step-num">4</div>
+                        <h5>Verification & Settlement</h5>
+                        <p>Completed field work is verified on mobile before automated secure payment payout.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram Box -->
+            <div style="width: 100%; background: rgba(15, 23, 42, 0.6); border: 1.5px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 26px 32px; backdrop-filter: blur(12px);">
+                <div style="font-size: 16px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: #38bdf8; margin-bottom: 18px;">
+                    System Architecture Layers
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px;">
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 20px;">
+                        <div style="color: #4ade80; font-weight: 800; font-size: 16px; margin-bottom: 8px;">🖥️ Client Presentation Layer</div>
+                        <p style="font-size: 14.5px; color: #cbd5e1; line-height: 1.5;">
+                            Farmer & Owner responsive UI, Glassmorphism design system, SPA tab controllers, interactive GPS radar map canvas.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 20px;">
+                        <div style="color: #38bdf8; font-weight: 800; font-size: 16px; margin-bottom: 8px;">⚙️ Application & API Layer</div>
+                        <p style="font-size: 14.5px; color: #cbd5e1; line-height: 1.5;">
+                            Node.js + Express.js REST API with Helmet security headers, Express-Rate-Limit, Session-Cookie Auth & role routing.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 14px; padding: 20px;">
+                        <div style="color: #f59e0b; font-weight: 800; font-size: 16px; margin-bottom: 8px;">🗄️ Data & Intelligent Services</div>
+                        <p style="font-size: 14.5px; color: #cbd5e1; line-height: 1.5;">
+                            SQLite database with foreign keys, GPS telemetry engine, APMC Mandi rates, Weather alerts, and Rule-based Crop Doctor.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>Methodology & Architecture</span>
+                <span class="footer-pill">Slide 05 / 10</span>
+            </div>
+            <span>FarmEazy • AKGEC Ghaziabad</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 6: IMPLEMENTATION & TECHNICAL TOOLS ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <div class="ambient-glow glow-bottom-left"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Implementation & Tools</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>Implementation & Technical Tools <span class="title-tag">Tech Stack</span></h2>
+            <p>Production-ready modern web engineering tailored for low-bandwidth rural connectivity</p>
+        </div>
+
+        <div class="slide-content">
+            <div class="grid-3" style="align-items: stretch;">
+                <!-- Card 1: Frontend -->
+                <div class="glass-card">
+                    <div class="card-icon-badge blue">🌐</div>
+                    <h3>Frontend Engineering</h3>
+                    <p style="margin-bottom: 16px;">Fast, lightweight, zero-bloat user experience designed for mobile browsers in rural environments.</p>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <span class="tech-pill">HTML5 Semantic</span>
+                        <span class="tech-pill">Vanilla Modern CSS</span>
+                        <span class="tech-pill">Glassmorphism UI</span>
+                        <span class="tech-pill">SPA JavaScript</span>
+                        <span class="tech-pill">HTML5 Canvas Radar</span>
+                    </div>
+                </div>
+
+                <!-- Card 2: Backend & Security -->
+                <div class="glass-card highlight">
+                    <div class="card-icon-badge">⚡</div>
+                    <h3>Backend & Security</h3>
+                    <p style="margin-bottom: 16px;">Enterprise-grade Express.js REST API hardened against brute-force and tampering.</p>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <span class="tech-pill">Node.js Engine</span>
+                        <span class="tech-pill">Express.js API</span>
+                        <span class="tech-pill">Helmet.js Protection</span>
+                        <span class="tech-pill">Rate Limiting</span>
+                        <span class="tech-pill">HTTP-Only Sessions</span>
+                    </div>
+                </div>
+
+                <!-- Card 3: Database & Logic -->
+                <div class="glass-card highlight-amber">
+                    <div class="card-icon-badge amber">🧠</div>
+                    <h3>Data & Intelligence</h3>
+                    <p style="margin-bottom: 16px;">ACID-compliant relational storage combined with agronomic decision engines.</p>
+                    <div style="display: flex; flex-wrap: wrap;">
+                        <span class="tech-pill">SQLite Storage</span>
+                        <span class="tech-pill">Bcrypt Hashing</span>
+                        <span class="tech-pill">APMC Mandi Rates</span>
+                        <span class="tech-pill">Agro-Weather API</span>
+                        <span class="tech-pill">Rule Crop Diagnosis</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Workflow States Banner -->
+        <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 10;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="color: #4ade80; font-weight: 800; font-size: 15px; letter-spacing: 1px;">OPERATIONAL WORKFLOW STATES:</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 16px; font-weight: 700; font-size: 15px;">
+                <span style="color: #94a3b8;">1. Confirmed</span>
+                <span style="color: #38bdf8;">➔</span>
+                <span style="color: #60a5fa;">2. Accepted</span>
+                <span style="color: #38bdf8;">➔</span>
+                <span style="color: #fbbf24;">3. On the Way</span>
+                <span style="color: #38bdf8;">➔</span>
+                <span style="color: #c084fc;">4. Work in Progress</span>
+                <span style="color: #38bdf8;">➔</span>
+                <span style="color: #4ade80;">5. Completed</span>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>Implementation & Technical Tools</span>
+                <span class="footer-pill">Slide 06 / 10</span>
+            </div>
+            <span>FarmEazy • AKGEC Ghaziabad</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 7: EXPERIMENTS AND RESULTS ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Validation & Results</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>Experiments and Results <span class="title-tag">Impact Metrics</span></h2>
+            <p>Empirical evaluation of real-time machinery telemetry, cost optimization, and field throughput</p>
+        </div>
+
+        <div class="slide-content">
+            <div class="grid-split-img-reverse">
+                <div class="image-frame">
+                    <img src="images/smart_agri_drone.jpg" alt="Autonomous smart tractor telematics">
+                    <div class="image-caption-chip">
+                        <div class="chip-title">Live GPS Radar & Telemetry</div>
+                        <div class="chip-desc">Real-time GPS coordinates, speed (8.4 km/h), ETA, and diesel tank monitor</div>
+                    </div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    <!-- 4 Stat Counters -->
+                    <div class="grid-2">
+                        <div class="stat-card">
+                            <div class="stat-val">30%</div>
+                            <div class="stat-lbl">Tillage & Sowing Cost Reduction</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-val">15 Min</div>
+                            <div class="stat-lbl">Average Booking Response Time</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-val" style="color: #38bdf8;">₹38.4K</div>
+                            <div class="stat-lbl">Avg. Monthly Machine-Owner Revenue</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-val" style="color: #fbbf24;">100%</div>
+                            <div class="stat-lbl">Verified Drivers & Field Quality Checks</div>
+                        </div>
+                    </div>
+
+                    <!-- Experiment Feature Highlights -->
+                    <div class="glass-card" style="padding: 24px 28px;">
+                        <h4 style="font-size: 18px; color: #ffffff; margin-bottom: 12px; font-weight: 700;">Key Product Innovations Tested:</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; font-size: 14.5px; color: #cbd5e1;">
+                            <div>• <strong>Live GPS Radar:</strong> Tractor speed, distance, diesel level & ETA countdown.</div>
+                            <div>• <strong>Farm Pooling:</strong> Nearby fields grouped together to split mobilization transit costs.</div>
+                            <div>• <strong>Fuel Estimator:</strong> Precise machine hours calculated from soil texture & crop type.</div>
+                            <div>• <strong>AI Crop Doctor:</strong> Rule-based leaf symptom diagnostic model for instant advice.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>Experiments and Results</span>
+                <span class="footer-pill">Slide 07 / 10</span>
+            </div>
+            <span>FarmEazy • AKGEC Ghaziabad</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 8: CONCLUSION AND FUTURE SCOPE ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <div class="ambient-glow glow-bottom-left"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Conclusion & Vision</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>Conclusion and Future Scope <span class="title-tag">Roadmap</span></h2>
+            <p>Summary of accomplishments and technological scaling roadmap for rural agricultural transformation</p>
+        </div>
+
+        <div class="slide-content">
+            <div class="grid-2">
+                <!-- Conclusion -->
+                <div class="glass-card highlight" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <div class="card-icon-badge">🏆</div>
+                        <h3 style="font-size: 26px; color: #4ade80; margin-bottom: 16px;">Conclusion</h3>
+                        <p style="font-size: 18px; line-height: 1.7; color: #f1f5f9; margin-bottom: 24px;">
+                            <strong>FarmEazy successfully addresses the access, utilization, and trust gaps</strong> in Indian agricultural mechanization.
+                        </p>
+                        <p style="font-size: 16px; line-height: 1.6; color: #cbd5e1;">
+                            By replacing fragmented, unorganized rental arrangements with a high-transparency two-sided digital marketplace, smallholders gain affordable timely access while machine owners convert idle equipment into steady seasonal income.
+                        </p>
+                    </div>
+
+                    <div style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 14px; padding: 18px 22px; margin-top: 24px;">
+                        <span style="font-size: 15px; color: #86efac; font-weight: 700;">
+                            ✨ Proven Impact: 30% operational cost savings & 15-minute dispatch response time.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Future Scope -->
+                <div class="glass-card highlight-blue">
+                    <div class="card-icon-badge blue">🚀</div>
+                    <h3 style="font-size: 26px; color: #38bdf8; margin-bottom: 16px;">Future Scope & Scaling</h3>
+
+                    <ul class="feature-list" style="gap: 18px;">
+                        <li>
+                            <div class="bullet-icon blue">1</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 16.5px;">Automated UPI Escrow Payments:</strong>
+                                Smart funds release upon GPS-confirmed field boundary completion.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon blue">2</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 16.5px;">IoT Fuel-Tank Anti-Theft Sensors:</strong>
+                                Direct hardware telemetry integration for accurate fuel consumption audit.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon blue">3</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 16.5px;">Multilingual Voice-Based Booking:</strong>
+                                Conversational voice interfaces in Hindi, Punjabi, and Haryanvi.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon blue">4</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 16.5px;">Satellite NDVI Crop-Yield Mapping:</strong>
+                                Multispectral satellite indexing for precision harvest scheduling.
+                            </div>
+                        </li>
+                        <li>
+                            <div class="bullet-icon blue">5</div>
+                            <div>
+                                <strong style="color: #ffffff; font-size: 16.5px;">Regional Hub Rollout:</strong>
+                                Establishing village-level machine hubs with verified mechanic support.
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>Conclusion & Future Scope</span>
+                <span class="footer-pill">Slide 08 / 10</span>
+            </div>
+            <span>FarmEazy • AKGEC Ghaziabad</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 9: REFERENCES ==================== -->
+    <section class="slide">
+        <div class="ambient-glow glow-top-right"></div>
+        <header class="slide-header">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Citations & Academic Notes</div>
+        </header>
+
+        <div class="slide-title-area">
+            <h2>References & Technical Sources <span class="title-tag">Academic</span></h2>
+            <p>Verification data sources, technical references, and architectural benchmarks</p>
+        </div>
+
+        <div class="slide-content">
+            <div style="width: 100%; display: flex; flex-direction: column; gap: 20px;">
+                <div class="glass-card" style="padding: 24px 30px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; color: #4ade80;">[1]</span>
+                        <div>
+                            <h4 style="font-size: 18px; color: #ffffff; margin-bottom: 4px;">FarmEazy Project Presentation & Operational Workflow</h4>
+                            <p style="font-size: 15px; color: #94a3b8;">Supplied by FarmEazy Core Project Engineering Team, AKGEC Ghaziabad (2026).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card" style="padding: 24px 30px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; color: #38bdf8;">[2]</span>
+                        <div>
+                            <h4 style="font-size: 18px; color: #ffffff; margin-bottom: 4px;">FarmEazy Local System Walkthrough & REST API Test Bench</h4>
+                            <p style="font-size: 15px; color: #94a3b8;">Local active test environment & UI sandbox: <code style="color: #38bdf8;">http://localhost:3000</code></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-card" style="padding: 24px 30px;">
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <span style="font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; color: #fbbf24;">[3]</span>
+                        <div>
+                            <h4 style="font-size: 18px; color: #ffffff; margin-bottom: 4px;">FarmEazy Core Feature Specifications</h4>
+                            <p style="font-size: 15px; color: #94a3b8;">Marketplace Booking Engine, Live GPS Radar, Farm Pooling, Smart Fuel Estimator, and Rule-based AI Crop Doctor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: rgba(34, 197, 94, 0.08); border: 1.5px dashed rgba(34, 197, 94, 0.35); border-radius: 16px; padding: 20px 28px; margin-top: 10px;">
+                    <p style="font-size: 15.5px; color: #cbd5e1; line-height: 1.6;">
+                        <strong style="color: #4ade80;">Verification Note:</strong> All project-specific metrics, technical tools, architecture layers, and operational data points in this presentation deck are reproduced and rigorously structured from the supplied FarmEazy engineering documentation.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer">
+            <div class="footer-left">
+                <span>References</span>
+                <span class="footer-pill">Slide 09 / 10</span>
+            </div>
+            <span>FarmEazy • AKGEC Ghaziabad</span>
+        </footer>
+    </section>
+
+    <!-- ==================== SLIDE 10: THANK YOU & Q&A ==================== -->
+    <section class="slide" style="background: radial-gradient(circle at 50% 50%, #0d281a 0%, #050c10 60%, #020406 100%); text-align: center; justify-content: space-between;">
+        <div class="ambient-glow glow-top-right"></div>
+        <div class="ambient-glow glow-bottom-left"></div>
+        <header class="slide-header" style="border: none;">
+            <div class="brand-badge">
+                <div class="logo-circle">🚜</div>
+                <span>FarmEazy</span>
+            </div>
+            <div class="slide-topic">Conclusion • Q&A</div>
+        </header>
+
+        <div style="margin: auto 0; position: relative; z-index: 10;">
+            <div class="card-icon-badge" style="width: 76px; height: 76px; font-size: 38px; border-radius: 22px; margin: 0 auto 28px auto;">
+                🙏
+            </div>
+
+            <h1 style="font-family: 'Outfit', sans-serif; font-size: 76px; font-weight: 900; color: #ffffff; letter-spacing: -1.5px; margin-bottom: 12px;">
+                Thank <span style="background: linear-gradient(135deg, #4ade80, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">You!</span>
+            </h1>
+
+            <p style="font-size: 26px; color: #4ade80; font-weight: 700; margin-bottom: 14px;">
+                FarmEazy: On-Demand, Affordable & Accessible Farm Machinery
+            </p>
+
+            <p style="font-size: 19px; color: #94a3b8; max-width: 800px; margin: 0 auto 36px auto; line-height: 1.6;">
+                Empowering smallholder farmers across India with modern mechanization and digital transparency.
+            </p>
+
+            <div style="display: inline-flex; gap: 36px; background: rgba(15, 23, 42, 0.7); border: 1.5px solid rgba(255, 255, 255, 0.12); padding: 18px 40px; border-radius: 16px; backdrop-filter: blur(12px);">
+                <div style="text-align: left;">
+                    <div style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Live Demonstration</div>
+                    <div style="font-size: 17px; color: #38bdf8; font-weight: 700;">http://localhost:3000</div>
+                </div>
+                <div style="width: 1px; background: rgba(255, 255, 255, 0.1);"></div>
+                <div style="text-align: left;">
+                    <div style="font-size: 12px; color: #64748b; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;">Session</div>
+                    <div style="font-size: 17px; color: #4ade80; font-weight: 700;">Open for Discussion & Questions</div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="slide-footer" style="border: none;">
+            <div class="footer-left">
+                <span>FarmEazy Core Team • AKGEC Ghaziabad</span>
+                <span class="footer-pill">Slide 10 / 10</span>
+            </div>
+            <span>Thank you for your valuable time!</span>
+        </footer>
+    </section>
+
+</body>
+</html>

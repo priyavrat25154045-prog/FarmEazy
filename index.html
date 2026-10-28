@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmEazy | Online Tractor & Farm Machinery Booking Platform</title>
+    <meta name="description" content="Book tractors, combine harvesters, rotavators, cultivators, and modern agricultural equipment online near you with verified drivers and instant price calculation.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="navbar">
+        <div class="logo-area">
+            <img src="images/logo.svg" alt="FarmEazy Logo">
+            <div>
+                <h1>FarmEazy</h1>
+                <span>Machinery & Tractor Hub</span>
+            </div>
+        </div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#machinerySection">🚜 Equipment</a>
+            <a href="#machinePoolingSection">👥 Farm Pooling (25% Off)</a>
+            <a href="#cropDoctorSection">🩺 AI Crop Doctor</a>
+            <a href="#smartCalculator">🧮 Fuel Calc</a>
+            <a href="#mandiWeatherSection">🌾 Mandi & Weather</a>
+            <a href="#driverPartnerSection">👨‍🌾 Partner Hub</a>
+            <a href="#recentBookingsSection">📋 Orders</a>
+            <div class="nav-auth-buttons">
+                <a href="login.html?role=farmer" class="login-btn farmer-nav-btn">
+                    🌾 Farmer Login
+                </a>
+                <a href="login.html?role=owner" class="login-btn partner-nav-btn">
+                    🚜 Owner / Driver
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ================= LIVE TRACTOR GPS TRACKER MODAL (UBER STYLE) ================= -->
+    <div id="liveTrackerModal" class="booking-modal tracker-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="trackerModalTitle">
+        <div class="booking-box tracker-box">
+            <button class="close-booking" id="closeTrackerModal" aria-label="Close live tracker">&times;</button>
+            <div class="tracker-header">
+                <div class="tracker-status-pill">
+                    <span class="live-dot pulse"></span> LIVE SATELLITE DISPATCH
+                </div>
+                <h2 id="trackerModalTitle">Tractor En Route to Field 🚜</h2>
+                <p class="tracker-subtitle">Real-time driver location & work telemetry powered by FarmEazy GPS</p>
+            </div>
+
+            <div class="tracker-main-layout">
+                <!-- Visual Map Simulation Canvas -->
+                <div class="gps-map-viewport" id="gpsMapViewport">
+                    <div class="map-grid-overlay"></div>
+                    <div class="map-route-line"></div>
+                    
+                    <!-- Destination (Farmer Field) -->
+                    <div class="map-pin farmer-field-pin">
+                        <span class="pin-marker">🏡</span>
+                        <div class="pin-label">
+                            <strong id="trackerDestName">Farmer's Field</strong>
+                            <span>Karnal Sector 14</span>
+                        </div>
+                    </div>
+
+                    <!-- Origin (Owner Depot) -->
+                    <div class="map-pin depot-pin">
+                        <span class="pin-marker">🏢</span>
+                        <div class="pin-label">
+                            <span>AgriHub Depot</span>
+                        </div>
+                    </div>
+
+                    <!-- Moving Tractor Marker -->
+                    <div class="moving-tractor-marker" id="movingTractor">
+                        <div class="tractor-pulse-halo"></div>
+                        <span class="tractor-avatar">🚜</span>
+                        <div class="tractor-bubble" id="tractorLiveEta">ETA 12 Mins</div>
+                    </div>
+
+                    <!-- Live Telemetry Badges -->
+                    <div class="map-telemetry-badge">
+                        <div class="telemetry-item">
+                            <span class="t-label">SPEED</span>
+                            <span class="t-val" id="telemetrySpeed">22 km/h</span>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="t-label">DISTANCE</span>
+                            <span class="t-val" id="telemetryDist">3.2 km</span>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="t-label">FUEL</span>
+                            <span class="t-val">84% Full</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Dispatch Info Sidebar -->
+                <div class="tracker-sidebar">
+                    <div class="driver-profile-card">
+                        <div class="driver-avatar-circle">👨‍🌾</div>
+                        <div class="driver-meta">
+                            <h4 id="trackerDriverName">Rampal Singh</h4>
+                            <span class="driver-tag">⭐ 4.9 (142 Jobs) • Verified Operator</span>
+                            <p id="trackerMachineryName">Mahindra 575 DI XP Plus</p>
+                        </div>
+                        <a href="tel:9876543210" class="driver-call-btn" title="Call Driver">📞 Call Driver</a>
+                    </div>
+
+                    <div class="trip-progress-timeline">
+                        <div class="timeline-step completed" id="step1">
+                            <span class="step-dot">✓</span>
+                            <div class="step-info">
+                                <strong>Order Accepted</strong>
+                                <span>Driver acknowledged farm location</span>
+                            </div>
+                        </div>
+                        <div class="timeline-step active" id="step2">
+                            <span class="step-dot">🚜</span>
+                            <div class="step-info">
+                                <strong>On The Way</strong>
+                                <span>Moving towards your village</span>
+                            </div>
+                        </div>
+                        <div class="timeline-step" id="step3">
+                            <span class="step-dot">📍</span>
+                            <div class="step-info">
+                                <strong>Arrived at Farm</strong>
+                                <span>Inspection & field commencement</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="emergency-safety-box">
+                        <span>🛡️ FarmEazy Guarantee</span>
+                        <p>No prepayment needed. Payment settled only upon complete satisfaction of field tillage/harvesting.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= BOOKING MODAL ================= -->
+    <div id="bookingModal" class="booking-modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <div class="booking-box">
+            <button class="close-booking" id="closeBooking" aria-label="Close booking modal">&times;</button>
+            <span class="booking-label">🚜 ONLINE MACHINERY RESERVATION</span>
+            <h2 id="modalTitle">Reserve Equipment</h2>
+
+            <div class="modal-machinery-badge">
+                <span class="badge-icon">🚜</span>
+                <div>
+                    <h3 id="selectedTractor">Mahindra 575 DI</h3>
+                    <p id="selectedSpecs">47 HP • Sonipat (2.4 km away)</p>
+                </div>
+                <div class="base-rate-badge" id="rateDisplay">₹700/hour</div>
+            </div>
+
+            <form id="bookingForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookingLocation">📍 Village / Farm Location</label>
+                        <input type="text" id="bookingLocation" placeholder="e.g. Rampur, Sector 14, Sonipat" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookingPhone">📞 Farmer Mobile Number</label>
+                        <input type="tel" id="bookingPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookingDate">📅 Service Date</label>
+                        <input type="date" id="bookingDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookingTime">🕐 Preferred Start Time</label>
+                        <input type="time" id="bookingTime" value="08:00" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="bookingDurationUnit">⏱️ Booking Plan</label>
+                        <select id="bookingDurationUnit">
+                            <option value="hours" selected>Hourly Booking</option>
+                            <option value="days">Daily Booking (Full Day)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookingDurationCount" id="durationLabel">⏱️ Number of Hours</label>
+                        <input type="number" id="bookingDurationCount" min="1" max="14" value="4" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="bookingWorkType">🌾 Farm Work Type</label>
+                    <select id="bookingWorkType">
+                        <option value="Ploughing & Tillage">Ploughing & Tillage (जुताई)</option>
+                        <option value="Paddy Harvesting">Harvesting / Reaping (कटाई)</option>
+                        <option value="Threshing & Cleaning">Threshing & Cleaning (गहाई)</option>
+                        <option value="Laser Land Leveling">Laser Land Leveling (समतलीकरण)</option>
+                        <option value="Seed Drilling / Sowing">Seed Drilling & Sowing (बुवाई)</option>
+                        <option value="Crop Spraying">Crop Spraying (छिड़काव)</option>
+                        <option value="Haulage & Trolley Transport">Trolley Transport / Loading (ढुलाई)</option>
+                    </select>
+                </div>
+
+                <!-- Driver Selection Option -->
+                <div class="driver-option-card" id="driverOptionRow">
+                    <label class="custom-checkbox-container">
+                        <input type="checkbox" id="needDriverCheckbox" checked>
+                        <span class="checkmark"></span>
+                        <div class="checkbox-text">
+                            <strong>👨‍🌾 Include Verified Driver / Operator</strong>
+                            <span>Experienced machine operator with diesel-management training</span>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Price Breakdown Matrix -->
+                <div class="cost-breakdown">
+                    <div class="summary-line">
+                        <span>Machinery Base Rent:</span>
+                        <strong id="basePriceSummary">₹2,800 (4 hours)</strong>
+                    </div>
+                    <div class="summary-line" id="driverSummaryRow">
+                        <span>Operator / Driver Charge:</span>
+                        <strong id="driverPriceSummary">+ ₹400</strong>
+                    </div>
+                    <div class="summary-total">
+                        <span>Estimated Payable Total:</span>
+                        <strong id="totalPrice">₹3,200</strong>
+                    </div>
+                </div>
+
+                <button type="submit" class="confirm-booking-btn">
+                    Confirm & Send Booking Request 🚜
+                </button>
+                <p class="booking-guarantee-note">🔒 No advance payment required online. Pay directly after farm work inspection.</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- ================= BOOKING SUCCESS MODAL ================= -->
+    <div id="bookingSuccessModal" class="booking-modal success-modal-overlay" role="dialog" aria-modal="true">
+        <div class="booking-box success-box">
+            <button class="close-booking" id="closeSuccessModal">&times;</button>
+            <div class="success-icon-badge">🎉</div>
+            <h2>Booking Confirmed!</h2>
+            <p class="success-subtitle">Your machinery reservation request has been dispatched to the equipment owner & nearby driver.</p>
+
+            <div id="successBookingDetails"></div>
+
+            <div class="success-actions">
+                <button type="button" class="btn-track-live" id="launchGpsTrackerBtn">
+                    🛰️ Track Tractor Live on Map (Uber-style) →
+                </button>
+                <button type="button" class="btn-primary-action" onclick="document.getElementById('closeSuccessModal').click()">
+                    Done & Back to Machines
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <main>
+        <!-- ================= HERO SECTION ================= -->
+        <section id="home" class="hero">
+            <div class="hero-content">
+                <span class="hero-tag">
+                    ⚡ India's #1 Smart Agri-Machinery Network
+                </span>
+
+                <h2>
+                    Rent Any Tractor &<br>
+                    <span>Farming Machinery Online</span>
+                </h2>
+
+                <p>
+                    From high-torque tractors to combine harvesters, laser levelers, and rotavators.
+                    Book by the hour or day with verified drivers delivered directly to your field.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#machinerySection" class="primary-btn">
+                        🚜 Book Machinery Now
+                    </a>
+                    <a href="#categories" class="secondary-btn">
+                        🔍 Explore Equipment
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div>
+                        <strong>1,200+</strong>
+                        <span>Active Tractors</span>
+                    </div>
+                    <div>
+                        <strong>450+</strong>
+                        <span>Harvesters & Implements</span>
+                    </div>
+                    <div>
+                        <strong>15 Mins</strong>
+                        <span>Average Booking Response</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="tractor-circle">
+                    🚜
+                </div>
+                <div class="floating-card card-one">
+                    🌾 Combine Harvesters Ready
+                </div>
+                <div class="floating-card card-two">
+                    📍 100+ Tractors Within 10 KM
+                </div>
+                <div class="floating-card card-three">
+                    ⚡ Hourly & Daily Pricing
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MACHINERY CATEGORIES ================= -->
+        <section class="categories-section" id="categories">
+            <div class="section-heading">
+                <span>POPULAR EQUIPMENT FLEET</span>
+                <h2>Explore by Farming Work Need</h2>
+                <p>Choose high-grade machinery designed for seasonal tillage, seeding, harvesting, and leveling.</p>
+            </div>
+
+            <div class="category-pills-grid">
+                <div class="cat-pill-card" onclick="filterCategory('tractor')">
+                    <span class="cat-icon">🚜</span>
+                    <h3>Heavy & Utility Tractors</h3>
+                    <p>Mahindra, Swaraj, John Deere, Massey, Powertrac & Sonalika</p>
+                    <span class="view-link">View 6 Models →</span>
+                </div>
+
+                <div class="cat-pill-card" onclick="filterCategory('harvester')">
+                    <span class="cat-icon">🌾</span>
+                    <h3>Harvesters & Threshers</h3>
+                    <p>Combine paddy/wheat harvesters and high-output threshers</p>
+                    <span class="view-link">View Equipment →</span>
+                </div>
+
+                <div class="cat-pill-card" onclick="filterCategory('tillage')">
+                    <span class="cat-icon">🌱</span>
+                    <h3>Rotavators & Cultivators</h3>
+                    <p>Multi-speed heavy rotavators and 9-tyne spring cultivators</p>
+                    <span class="view-link">View Attachments →</span>
+                </div>
+
+                <div class="cat-pill-card" onclick="filterCategory('leveler')">
+                    <span class="cat-icon">📐</span>
+                    <h3>Laser Land Levelers</h3>
+                    <p>Precision dual-slope laser transmitters for 30% water saving</p>
+                    <span class="view-link">View Levelers →</span>
+                </div>
+
+                <div class="cat-pill-card" onclick="filterCategory('seeder')">
+                    <span class="cat-icon">🌾</span>
+                    <h3>Seed Drills & Happy Seeders</h3>
+                    <p>Zero-till direct seeding without stubble burning</p>
+                    <span class="view-link">View Seeders →</span>
+                </div>
+
+                <div class="cat-pill-card" onclick="filterCategory('sprayer')">
+                    <span class="cat-icon">💧</span>
+                    <h3>Boom Sprayers & Mist Blowers</h3>
+                    <p>Tractor-mounted 500L high pressure spray systems</p>
+                    <span class="view-link">View Sprayers →</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LIVE MACHINERY MARKETPLACE ================= -->
+        <section id="machinerySection" class="machinery-section">
+            <div class="section-heading">
+                <span>ONLINE BOOKING FLEET</span>
+                <h2>Book Available Machinery Near You 🚜</h2>
+                <p>Transparent rates, verified operators, and instant confirmation for hourly or daily hire.</p>
+            </div>
+
+            <!-- Controls: Search, Category, Sorting -->
+            <div class="machinery-controls-wrapper">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="machinerySearchInput" placeholder="Search tractor model, brand (Mahindra, Swaraj, Massey...), harvester, rotavator...">
+                </div>
+
+                <div class="filter-dropdowns">
+                    <select id="machineryCategoryFilter" aria-label="Filter by Category">
+                        <option value="all">All Machinery Types</option>
+                        <option value="tractor">🚜 Tractors Only</option>
+                        <option value="harvester">🌾 Harvesters & Threshers</option>
+                        <option value="tillage">🌱 Rotavators & Cultivators</option>
+                        <option value="leveler">📐 Laser Land Levelers</option>
+                        <option value="seeder">🌾 Seed Drills & Seeders</option>
+                        <option value="sprayer">💧 Sprayers</option>
+                    </select>
+
+                    <select id="machinerySortFilter" aria-label="Sort Machinery">
+                        <option value="recommended">Featured / Nearest</option>
+                        <option value="distance">Nearest Distance First</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="rating">Highest Farmer Rating ⭐</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Dynamic Machinery Cards Grid -->
+            <div id="machineryGrid" class="machinery-cards-grid">
+                <!-- Injected via js/booking.js -->
+            </div>
+        </section>
+
+        <!-- ================= SMART FUEL & ACREAGE COST CALCULATOR ================= -->
+        <section id="smartCalculator" class="calculator-section">
+            <div class="section-heading">
+                <span>AGRI-ENGINEERING CALCULATOR</span>
+                <h2>Smart Fuel & Acreage Estimator 🧮</h2>
+                <p>Estimate required machine hours, diesel consumption (litres), and operational savings before booking.</p>
+            </div>
+
+            <div class="calculator-grid">
+                <div class="calc-card-inputs">
+                    <h3>🌾 Farm & Soil Parameters</h3>
+                    
+                    <div class="calc-field-group">
+                        <label for="calcCropType">Crop / Farming Season</label>
+                        <select id="calcCropType">
+                            <option value="wheat" selected>Wheat / Rabi (गेहूं)</option>
+                            <option value="paddy">Paddy / Kharif (धान / चावल)</option>
+                            <option value="sugarcane">Sugarcane (गन्ना)</option>
+                            <option value="cotton">Cotton / Vegetables (कपास / सब्ज़ियाँ)</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-field-group">
+                        <label for="calcWorkStage">Machinery Work Requirement</label>
+                        <select id="calcWorkStage">
+                            <option value="ploughing" selected>Tillage & Rotavator (जुताई)</option>
+                            <option value="harvesting">Combine Harvesting (कटाई)</option>
+                            <option value="leveling">Laser Land Leveling (समतलीकरण)</option>
+                            <option value="seeding">Zero-Till Happy Seeding (बुवाई)</option>
+                        </select>
+                    </div>
+
+                    <div class="calc-field-row">
+                        <div class="calc-field-group">
+                            <label for="calcAcreage">Farm Land Area (Acres)</label>
+                            <input type="number" id="calcAcreage" value="5" min="0.5" max="200" step="0.5">
+                        </div>
+                        <div class="calc-field-group">
+                            <label for="calcSoilType">Soil Condition</label>
+                            <select id="calcSoilType">
+                                <option value="light">Loamy / Sandy (हल्की मिट्टी)</option>
+                                <option value="medium" selected>Medium Clay (सामान्य मिट्टी)</option>
+                                <option value="heavy">Hard / Heavy Black Soil (कठोर काली मिट्टी)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="button" class="calc-action-btn" onclick="runAgriCalculation()">
+                        ⚡ Calculate Fuel & Cost Estimates
+                    </button>
+                </div>
+
+                <div class="calc-card-results">
+                    <div class="calc-result-header">
+                        <span>ESTIMATED WORK TELEMETRY</span>
+                        <h4 id="calcSummaryTitle">5.0 Acres • Wheat Tillage</h4>
+                    </div>
+
+                    <div class="metric-tiles-grid">
+                        <div class="metric-tile">
+                            <span class="m-icon">⏱️</span>
+                            <div class="m-data">
+                                <strong id="calcEstHours">6.5 Hours</strong>
+                                <span>Total Machine Time</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-tile">
+                            <span class="m-icon">⛽</span>
+                            <div class="m-data">
+                                <strong id="calcEstDiesel">32.5 Litres</strong>
+                                <span>Estimated Diesel</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-tile">
+                            <span class="m-icon">💰</span>
+                            <div class="m-data">
+                                <strong id="calcEstCost">₹4,550</strong>
+                                <span>Estimated Rental Cost</span>
+                            </div>
+                        </div>
+
+                        <div class="metric-tile savings-tile">
+                            <span class="m-icon">🌱</span>
+                            <div class="m-data">
+                                <strong id="calcEstSavings">₹18,200</strong>
+                                <span>Saved vs Manual Labor</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="calc-advisory-tip">
+                        💡 <strong>Pro Tip:</strong> <span id="calcProTip">Using a 50+ HP tractor with a multi-speed rotavator saves up to 18% diesel on medium clay soils compared to traditional 3-pass tilling.</span>
+                    </div>
+
+                    <a href="#machinerySection" class="calc-book-match-btn">
+                        🚜 View Matched Tractors For This Job →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MANDI RATES & WEATHER ADVISORY WIDGET ================= -->
+        <section id="mandiWeatherSection" class="mandi-weather-section">
+            <div class="section-heading">
+                <span>AGRI-INTELLIGENCE WIDGET</span>
+                <h2>Real-Time Mandi Rates & Weather Advisory 🌾</h2>
+                <p>Live crop prices from APMC markets and weather conditions to time your equipment booking.</p>
+            </div>
+
+            <div class="intelligence-grid">
+                <!-- Weather & Farm Advisory Card -->
+                <div class="intel-weather-card">
+                    <div class="weather-top-bar">
+                        <div>
+                            <span class="region-badge">📍 North Agri Belt</span>
+                            <h3 id="weatherLocation">Sonipat, Haryana</h3>
+                        </div>
+                        <div class="temp-badge" id="weatherTemp">28°C</div>
+                    </div>
+
+                    <div class="weather-condition-box">
+                        <span class="w-icon" id="weatherIcon">☀️</span>
+                        <div>
+                            <h4 id="weatherCondition">Partly Sunny / Clear Skies</h4>
+                            <p id="weatherSub">Humidity: 42% • Wind: 12 km/h • Rain Chance: 8%</p>
+                        </div>
+                    </div>
+
+                    <div class="farm-recommendation-alert" id="farmAlertBox">
+                        <div class="alert-icon">🟢</div>
+                        <div class="alert-text">
+                            <strong>Field Work Advisory:</strong>
+                            <p id="weatherAdvisory">Optimal condition for laser land leveling and combine harvesting. Low rain risk over the next 48 hours.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mandi Rates Table Card -->
+                <div class="intel-mandi-card">
+                    <div class="mandi-card-header">
+                        <h3>📈 Today's APMC Mandi Rates</h3>
+                        <span class="live-pulse-badge">● Live Rates</span>
+                    </div>
+
+                    <div class="mandi-rates-table" id="mandiTableBody">
+                        <!-- Populated dynamically via JS -->
+                        <div class="mandi-row">
+                            <div class="crop-info">
+                                <strong>Wheat (गेहूं)</strong>
+                                <span>Karnal Mandi</span>
+                            </div>
+                            <div class="mandi-price">
+                                <strong>₹2,350</strong>
+                                <span class="trend-up">+₹35 ▲</span>
+                            </div>
+                        </div>
+                        <div class="mandi-row">
+                            <div class="crop-info">
+                                <strong>Paddy Basmati (धान)</strong>
+                                <span>Amritsar Mandi</span>
+                            </div>
+                            <div class="mandi-price">
+                                <strong>₹4,100</strong>
+                                <span class="trend-up">+₹80 ▲</span>
+                            </div>
+                        </div>
+                        <div class="mandi-row">
+                            <div class="crop-info">
+                                <strong>Mustard (सरसों)</strong>
+                                <span>Alwar Mandi</span>
+                            </div>
+                            <div class="mandi-price">
+                                <strong>₹5,320</strong>
+                                <span class="trend-down">-₹40 ▼</span>
+                            </div>
+                        </div>
+                        <div class="mandi-row">
+                            <div class="crop-info">
+                                <strong>Potato (आलू)</strong>
+                                <span>Agra Mandi</span>
+                            </div>
+                            <div class="mandi-price">
+                                <strong>₹1,250</strong>
+                                <span class="trend-stable">₹0 —</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= DRIVER / OWNER TRIP & EARNINGS DASHBOARD ================= -->
+        <section id="driverPartnerSection" class="driver-partner-section">
+            <div class="section-heading">
+                <span>UBER-STYLE PARTNER HUB</span>
+                <h2>Driver & Machine Owner Portal 👨‍🌾🚜</h2>
+                <p>Accept incoming farm bookings, navigate to farmer fields, track your daily earnings and manage orders.</p>
+            </div>
+
+            <div class="driver-portal-wrapper">
+                <!-- Partner KPI Stats -->
+                <div class="partner-stats-grid">
+                    <div class="p-stat-card">
+                        <span class="p-stat-icon">💰</span>
+                        <div class="p-stat-data">
+                            <strong>₹38,400</strong>
+                            <span>This Month's Earnings</span>
+                        </div>
+                    </div>
+                    <div class="p-stat-card">
+                        <span class="p-stat-icon">🚜</span>
+                        <div class="p-stat-data">
+                            <strong>14 Jobs</strong>
+                            <span>Completed Tillage/Harvests</span>
+                        </div>
+                    </div>
+                    <div class="p-stat-card">
+                        <span class="p-stat-icon">⭐</span>
+                        <div class="p-stat-data">
+                            <strong>4.92 / 5.0</strong>
+                            <span>Farmer Satisfaction Score</span>
+                        </div>
+                    </div>
+                    <div class="p-stat-card">
+                        <span class="p-stat-icon">⚡</span>
+                        <div class="p-stat-data">
+                            <strong style="color: #16a34a;">Active Online</strong>
+                            <span>Ready for Local Booking</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Driver Live Bookings & Action Management -->
+                <div class="driver-orders-container">
+                    <div class="driver-orders-header">
+                        <h3>📋 Incoming Field Booking Requests</h3>
+                        <span class="badge-role">Operator View</span>
+                    </div>
+
+                    <div id="driverBookingOrdersList" class="driver-orders-list">
+                        <!-- Injected via booking.js with Accept, Start, Complete buttons -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= COMMUNITY MACHINERY POOLING (UBER POOL FOR AGRICULTURE) ================= -->
+        <section id="machinePoolingSection" class="pooling-section">
+            <div class="section-heading">
+                <span>COMMUNITY GROUP BOOKING</span>
+                <h2>Nearby Village Machinery Pooling (UberPool) 👥🌾</h2>
+                <p>Club neighboring farm plots together to share diesel mobilization costs and save up to 25% on rental rates.</p>
+            </div>
+
+            <div class="pooling-grid" id="poolingCardsGrid">
+                <!-- Dynamically loaded via booking.js from /api/pools -->
+            </div>
+        </section>
+
+        <!-- ================= AI CROP DOCTOR & SMART MACHINERY MATCHING ================= -->
+        <section id="cropDoctorSection" class="crop-doctor-section">
+            <div class="section-heading">
+                <span>AGRI-AI DIAGNOSTIC SCANNER</span>
+                <h2>AI Crop Doctor & Equipment Matcher 🩺🌾</h2>
+                <p>Diagnose crop symptoms, pest outbreaks, or weeds and instantly get recommended treatment & precision machinery.</p>
+            </div>
+
+            <div class="doctor-container">
+                <div class="doctor-form-card">
+                    <h3>🔍 Crop Health Diagnostic Assistant</h3>
+                    <p class="doctor-hint">Describe leaf discoloration, insects, soil weeds, or harvest readiness:</p>
+
+                    <div class="form-group">
+                        <label for="doctorCropSelect">Crop Type</label>
+                        <select id="doctorCropSelect">
+                            <option value="Wheat (गेहूं)" selected>Wheat (गेहूं)</option>
+                            <option value="Paddy Basmati (धान)">Paddy Basmati (धान)</option>
+                            <option value="Mustard (सरसों)">Mustard (सरसों)</option>
+                            <option value="Sugarcane (गन्ना)">Sugarcane (गन्ना)</option>
+                            <option value="Cotton / Vegetables (कपास / सब्ज़ियाँ)">Cotton / Vegetables (कपास / सब्ज़ियाँ)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="doctorSymptomSelect">Observed Field Symptom</label>
+                        <select id="doctorSymptomSelect">
+                            <option value="yellow" selected>Yellowing leaves, rust pustules & weak tillering (पीलापन / रतुआ)</option>
+                            <option value="pest">Insect attack, stem borers, leaf rollers (कीट / सुंडी प्रकोप)</option>
+                            <option value="weeds">Heavy weed infestation & wild grasses (खरपतवार / गुल्ली डंडा)</option>
+                            <option value="harvest">Grains turning golden & dropping risk (फसल पकने का समय)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="btn-diagnose" onclick="runCropDiagnosis()">
+                        ⚡ Run Instant AI Diagnosis & Match Machine
+                    </button>
+                </div>
+
+                <div class="doctor-result-card" id="doctorResultCard">
+                    <div class="diagnosis-header">
+                        <span class="diag-badge" id="diagSeverity">MODERATE SEVERITY</span>
+                        <h3 id="diagDisease">Nitrogen Deficiency / Yellow Rust (पीला रतुआ)</h3>
+                        <p id="diagTreatment">Foliar spray of Propiconazole 25% EC (1ml/L) or 2% Urea solution spray.</p>
+                    </div>
+
+                    <div class="diag-machine-recommendation">
+                        <div class="rec-icon">🚜</div>
+                        <div class="rec-details">
+                            <span class="rec-label">RECOMMENDED MACHINERY ATTACHMENT</span>
+                            <h4 id="diagMachine">Tractor-Mounted 500L Boom Sprayer (50-60 HP)</h4>
+                            <p id="diagBenefit">Even droplet distribution covers 5 acres in just 45 minutes without crop trampling.</p>
+                        </div>
+                    </div>
+
+                    <div class="doctor-actions">
+                        <button type="button" class="btn-book-matched-machine" onclick="filterCategory('sprayer')">
+                            🚜 Book Recommended Sprayer Nearby →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= LIST MACHINERY (PARTNER / DRIVER PORTAL) ================= -->
+        <section id="listMachineSection" class="list-machine-section">
+            <div class="section-heading">
+                <span>MACHINERY PARTNER NETWORK</span>
+                <h2>List Your Tractor or Machine for Rent 🚜</h2>
+                <p>Are you a tractor owner or equipment driver? Add your machine to FarmEazy so local farmers can book it directly!</p>
+            </div>
+
+            <div class="list-machine-card">
+                <form id="addMachineryForm" class="add-machinery-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newMachineName">🚜 Machine / Tractor Model Name</label>
+                            <input type="text" id="newMachineName" placeholder="e.g. Swaraj 855 FE / Combine Harvester" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newMachineCategory">🌾 Equipment Category</label>
+                            <select id="newMachineCategory" required>
+                                <option value="tractor" selected>Heavy & Utility Tractor</option>
+                                <option value="harvester">Harvester & Thresher</option>
+                                <option value="tillage">Rotavator / Cultivator</option>
+                                <option value="leveler">Laser Land Leveler</option>
+                                <option value="seeder">Seed Drill / Happy Seeder</option>
+                                <option value="sprayer">Crop Sprayer</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newMachineBrand">🏷️ Manufacturer / Brand</label>
+                            <input type="text" id="newMachineBrand" placeholder="e.g. Mahindra, Swaraj, John Deere, Shaktiman" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newMachineHp">⚡ Horsepower (HP) / Capacity</label>
+                            <input type="text" id="newMachineHp" placeholder="e.g. 50 HP or 45-55 HP Req." required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newMachineRateHour">💰 Rent Rate Per Hour (₹)</label>
+                            <input type="number" id="newMachineRateHour" placeholder="e.g. 750" min="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newMachineRateDay">📅 Rent Rate Per Day (₹)</label>
+                            <input type="number" id="newMachineRateDay" placeholder="e.g. 5500" min="500" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="newMachineLocation">📍 Your Village / Town Location</label>
+                            <input type="text" id="newMachineLocation" placeholder="e.g. Karnal, Haryana (Sector 12)" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newDriverCharge">👨‍🌾 Driver/Operator Extra Fee (₹/hr)</label>
+                            <input type="number" id="newDriverCharge" placeholder="e.g. 100 (0 if self-driven)" min="0" value="100">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newMachineSpecs">📋 Engine & Attachment Specifications</label>
+                        <input type="text" id="newMachineSpecs" placeholder="e.g. 3-Cylinder Water Cooled • Dual Clutch • 1800kg Lift" required>
+                    </div>
+
+                    <div class="driver-option-card">
+                        <label class="custom-checkbox-container">
+                            <input type="checkbox" id="newWithDriverAvailable" checked>
+                            <span class="checkmark"></span>
+                            <div class="checkbox-text">
+                                <strong>👨‍🌾 Driver / Skilled Operator Available with this machine</strong>
+                                <span>Check this if you or your driver can drive the tractor for the customer</span>
+                            </div>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-machine-btn">
+                        🚀 Submit & Publish to FarmEazy Fleet
+                    </button>
+                    <p id="addMachineMessage" class="login-message" role="status" aria-live="polite"></p>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= HOW IT WORKS ================= -->
+        <section class="how-it-works-section" id="howItWorks">
+            <div class="section-heading">
+                <span>SIMPLE 3-STEP PROCESS</span>
+                <h2>How FarmEazy Machinery Booking Works</h2>
+                <p>Get heavy equipment to your farm in 3 easy steps without any middlemen.</p>
+            </div>
+
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">01</div>
+                    <div class="step-icon">📍</div>
+                    <h3>Search & Select Machine</h3>
+                    <p>Browse tractors, harvesters, or tillage implements near your village. Check real farmer reviews and HP specs.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">02</div>
+                    <div class="step-icon">⏱️</div>
+                    <h3>Choose Duration & Driver</h3>
+                    <p>Select hourly or full-day booking. Choose whether you need a verified skilled operator or machine only.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">03</div>
+                    <div class="step-icon">🚜</div>
+                    <h3>Machine Reaches Your Field</h3>
+                    <p>The owner confirms the booking in minutes. The machine arrives directly on your farm on schedule. Pay after work!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= WHY CHOOSE US ================= -->
+        <section class="why-section" id="whyUs">
+            <div class="section-heading">
+                <span>OUR COMMITMENT</span>
+                <h2>Why Farmers Trust FarmEazy</h2>
+                <p>Designed specifically to save farming costs and maximize crop turnaround times.</p>
+            </div>
+
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">🛡️</div>
+                    <h3>100% Verified Equipment</h3>
+                    <p>Every tractor and machine is physically inspected with GPS tracking and well-maintained engines.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">👨‍🌾</div>
+                    <h3>Skilled Tractor Drivers</h3>
+                    <p>Available with trained operators who understand precision depth, speed, and fuel-saving tilling techniques.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">💰</div>
+                    <h3>Fair & Transparent Rates</h3>
+                    <p>Zero hidden commission. Hourly and day packages clearly calculated before you confirm.</p>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">⚡</div>
+                    <h3>Emergency Breakdown Support</h3>
+                    <p>If any equipment faces mechanical issues during field work, backup machines are dispatched promptly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= CONTACT / CALLOUT ================= -->
+        <section class="contact-section" id="contact">
+            <div class="contact-container">
+                <span class="callout-tag">OWN FARM MACHINERY?</span>
+                <h2>List Your Tractor & Earn When Idle</h2>
+                <p>Join over 1,200 tractor and machine owners earning up to ₹35,000 extra per season on FarmEazy.</p>
+                <div class="contact-actions">
+                    <a href="register.html" class="primary-btn">Register as Machine Owner</a>
+                    <a href="tel:18001205472" class="call-btn">📞 Toll-Free Helpline: 1800-120-KISAN</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo-area-footer">
+                    <img src="images/logo.svg" alt="FarmEazy Logo">
+                    <h2>FarmEazy</h2>
+                </div>
+                <p>India's dedicated digital platform for tractor rentals, harvester hire, and modern agricultural equipment booking.</p>
+                <span class="footer-badge">🚜 Empowering Indian Agriculture</span>
+            </div>
+
+            <div class="footer-col">
+                <h3>Machinery Fleet</h3>
+                <a href="#machinerySection" onclick="filterCategory('tractor')">Mahindra & Swaraj Tractors</a>
+                <a href="#machinerySection" onclick="filterCategory('tractor')">John Deere & Massey Ferguson</a>
+                <a href="#machinerySection" onclick="filterCategory('tractor')">Powertrac & Sonalika</a>
+                <a href="#machinerySection" onclick="filterCategory('harvester')">Combine Harvesters & Threshers</a>
+                <a href="#machinerySection" onclick="filterCategory('tillage')">Rotavators & Cultivators</a>
+                <a href="#machinerySection" onclick="filterCategory('leveler')">Laser Land Levelers</a>
+            </div>
+
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <a href="#home">Home</a>
+                <a href="#categories">Categories</a>
+                <a href="#machinerySection">Book Equipment</a>
+                <a href="#howItWorks">Booking Process</a>
+                <a href="login.html">Farmer Account</a>
+                <a href="register.html">Register Machinery</a>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <span>© 2026 FarmEazy Agri-Machinery Services. All rights reserved.</span>
+            <span>Made with ❤️ for Indian Farmers</span>
+        </div>
+    </footer>
+
+    <script src="js/booking.js"></script>
+    <script src="auth.js"></script>
+</body>
+
+</html>

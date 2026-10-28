@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | FarmEazy Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-page">
+
+    <main class="login-container">
+
+        <section class="login-visual">
+            <a href="index.html" class="brand-logo">🌿 FarmEazy</a>
+
+            <div class="visual-content">
+                <span class="welcome-tag" id="activeRoleBadge">DUAL AGRI-PORTAL</span>
+
+                <h1>Growing Together,<br>Powering Better.</h1>
+
+                <p>
+                    Choose whether you are a <strong>Farmer looking to book equipment</strong>, or a 
+                    <strong>Tractor / Machine Owner looking to earn</strong> by listing your fleet.
+                </p>
+
+                <div class="farm-illustration" aria-hidden="true">
+                    🌾 🚜 ⚙️
+                </div>
+            </div>
+
+            <p class="visual-footer">
+                Connecting Indian Farmers & Equipment Owners.
+            </p>
+        </section>
+
+        <section class="login-panel">
+
+            <a href="index.html" class="back-home">
+                ← Back to Home
+            </a>
+
+            <div class="login-card">
+
+                <div class="login-icon">👋</div>
+
+                <h2>Welcome Back!</h2>
+
+                <p class="login-subtitle">
+                    Select your portal type to log in:
+                </p>
+
+                <!-- Role Selector Tabs (Farmer vs Machine Owner) -->
+                <div class="role-selector-group">
+                    <label class="role-tab active" data-role="farmer">
+                        <input type="radio" name="role" value="farmer" checked>
+                        <span class="tab-icon">🌾</span>
+                        <div class="tab-content">
+                            <strong>Farmer Login</strong>
+                            <span>Book machinery</span>
+                        </div>
+                    </label>
+
+                    <label class="role-tab" data-role="owner">
+                        <input type="radio" name="role" value="owner">
+                        <span class="tab-icon">🚜</span>
+                        <div class="tab-content">
+                            <strong>Partner / Owner Login</strong>
+                            <span>Earn from machines</span>
+                        </div>
+                    </label>
+                </div>
+
+                <form id="loginForm" class="login-form">
+
+                    <label for="username">Username or Email</label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Enter username or email"
+                        autocomplete="username"
+                        required
+                    >
+
+                    <label for="password">Password</label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <label class="show-password">
+                        <input type="checkbox" id="showPassword">
+                        <span>Show password</span>
+                    </label>
+
+                    <button type="submit" class="login-button">
+                        Login to Farmer Account →
+                    </button>
+
+                    <p
+                        id="loginMessage"
+                        class="login-message"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+
+                </form>
+
+                <p class="login-note">
+                    New to FarmEazy?
+                    <a href="register.html">Create an account</a>
+                </p>
+
+            </div>
+
+            <p class="panel-footer">
+                © 2026 FarmEazy Agri-Machinery Services
+            </p>
+
+        </section>
+
+    </main>
+
+    <script src="auth.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,133 @@
+[
+  {
+    "slide": 1,
+    "content": [
+      "FarmEazy",
+      "Presentation",
+      "on",
+      "Topic: Farm Machinery Rental Marketplace",
+      "By:",
+      "FarmEazy Core Team",
+      "Agri-Tech & Mobility",
+      "AKGEC Ghaziabad"
+    ]
+  },
+  {
+    "slide": 2,
+    "content": [
+      "Outline",
+      "Introduction & Domain Overview",
+      "Problem Statement & Objectives",
+      "Methodology & System Architecture",
+      "Implementation & Technical Tools",
+      "Experiments and Results",
+      "Conclusion and Future Scope",
+      "References"
+    ]
+  },
+  {
+    "slide": 3,
+    "content": [
+      "Introduction",
+      "FarmEazy is an on-demand farm machinery rental marketplace for Indian farmers.",
+      "The platform connects farmers who need tractors and specialized equipment with machine owners who have idle capacity.",
+      "It combines mobile booking, transparent pricing, verified operators, live GPS tracking, community machine pooling, fuel estimation, and AI-assisted crop diagnostics.",
+      "Domain: Agri-tech, rural mobility, and agricultural mechanization."
+    ]
+  },
+  {
+    "slide": 4,
+    "content": [
+      "Problem Statement & Objectives",
+      "Problem statement",
+      "Smallholder farmers face high machinery purchase costs and seasonal labour shortages.",
+      "Equipment is often unavailable during critical 7–10 day sowing and harvesting windows.",
+      "More than 40% of tractors can remain idle outside peak cycles, while owners lack a reliable demand channel.",
+      "Objectives",
+      "Make equipment discovery and booking simple and transparent.",
+      "Improve machine utilization and owner income.",
+      "Reduce delays through live dispatch visibility and verified operators.",
+      "Support shared bookings through community machine pooling."
+    ]
+  },
+  {
+    "slide": 5,
+    "content": [
+      "Methodology & System Architecture",
+      "Methodology",
+      "1. Farmer searches by equipment type, horsepower, attachment, location, and rate.",
+      "2. Owner receives the request and confirms availability.",
+      "3. Operator dispatches the machine and shares live trip status.",
+      "4. Work completion is verified before payment settlement.",
+      "System architecture",
+      "Farmer / Owner mobile interface → Node.js + Express REST API → SQLite data layer",
+      "Supporting services: authentication, rate limiting, GPS telemetry, fuel estimation, mandi rates, weather alerts, and crop diagnostics."
+    ]
+  },
+  {
+    "slide": 6,
+    "content": [
+      "Implementation & Technical Tools",
+      "Frontend",
+      "Vanilla HTML5, responsive CSS, glassmorphism design system, and JavaScript single-page controllers.",
+      "Backend",
+      "Node.js with Express.js REST API.",
+      "Helmet security hardening, session-cookie authentication, and rate limiting.",
+      "Database and intelligence",
+      "SQLite with isolated storage, bcrypt credential hashing, and foreign-key role separation.",
+      "APMC mandi rates, agro-weather alerts, diesel estimation, and rule-based crop diagnosis.",
+      "Operational workflow states",
+      "Confirmed → Accepted → On the Way → Work in Progress → Completed"
+    ]
+  },
+  {
+    "slide": 7,
+    "content": [
+      "Experiments and Results",
+      "Product experiments",
+      "Live GPS Radar shows tractor position, speed, distance, diesel level, and estimated arrival time.",
+      "Farm Pooling groups nearby fields to share mobilization overhead.",
+      "Smart Fuel Estimator uses crop, acreage, and soil texture to estimate machine hours and diesel use.",
+      "AI Crop Doctor provides rule-based guidance from selected leaf symptoms.",
+      "Reported outcomes",
+      "30% tillage and sowing cost reduction",
+      "15-minute average booking response time",
+      "₹38,400 average monthly machine-owner revenue",
+      "100% verified drivers and field quality checks"
+    ]
+  },
+  {
+    "slide": 8,
+    "content": [
+      "Conclusion and Future Scope",
+      "Conclusion",
+      "FarmEazy addresses the access, utilization, and trust gaps in agricultural mechanization through a two-sided marketplace with operational visibility.",
+      "Future scope",
+      "• Automated UPI escrow payments",
+      "• IoT fuel-tank sensors for anti-theft monitoring",
+      "• Hindi, Punjabi, and Haryanvi voice-based booking",
+      "• Satellite NDVI crop-yield mapping",
+      "• Wider regional rollout through verified machine-owner hubs"
+    ]
+  },
+  {
+    "slide": 9,
+    "content": [
+      "REFERENCES",
+      "1. FarmEazy project presentation and product workflow supplied by the project team.",
+      "2. FarmEazy local system walkthrough: http://localhost:3000",
+      "3. FarmEazy feature areas: marketplace booking, GPS Radar, Farm Pooling, Smart Fuel Estimator, and AI Crop Doctor.",
+      "Note: All project-specific metrics and technical details in this deck are reproduced or summarized from the supplied FarmEazy presentation."
+    ]
+  },
+  {
+    "slide": 10,
+    "content": [
+      "Thank you",
+      "FarmEazy",
+      "On-demand, affordable, and accessible farm machinery",
+      "Live portal: http://localhost:3000",
+      "Demo and Q&A"
+    ]
+  }
+]

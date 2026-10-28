@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account | FarmEazy Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="login-page">
+
+    <main class="login-container">
+
+        <section class="login-visual">
+            <a href="index.html" class="brand-logo">🌿 FarmEazy</a>
+
+            <div class="visual-content">
+                <span class="welcome-tag" id="activeRoleBadge">CHOOSE ACCOUNT TYPE</span>
+                <h1>Join the Smart<br>Agri-Network.</h1>
+                <p>Register as a <strong>Farmer Customer</strong> to book tractors on-demand, or register as a <strong>Tractor Owner / Driver</strong> to accept bookings and earn steady income.</p>
+                <div class="farm-illustration" aria-hidden="true">
+                    🌾 🚜 💰
+                </div>
+            </div>
+
+            <p class="visual-footer">
+                Empowering Farmers. Connecting Communities.
+            </p>
+        </section>
+
+        <section class="login-panel">
+
+            <a href="index.html" class="back-home">← Back to Home</a>
+
+            <div class="login-card">
+                <div class="login-icon">🌱</div>
+                <h2>Create Account</h2>
+                <p class="login-subtitle">
+                    Select how you want to use FarmEazy:
+                </p>
+
+                <!-- Role Selector Tabs (Farmer vs Machine Owner) -->
+                <div class="role-selector-group">
+                    <label class="role-tab active" data-role="farmer">
+                        <input type="radio" name="role" value="farmer" checked>
+                        <span class="tab-icon">🌾</span>
+                        <div class="tab-content">
+                            <strong>I'm a Farmer</strong>
+                            <span>Rent & book machinery</span>
+                        </div>
+                    </label>
+
+                    <label class="role-tab" data-role="owner">
+                        <input type="radio" name="role" value="owner">
+                        <span class="tab-icon">🚜</span>
+                        <div class="tab-content">
+                            <strong>Machine Owner</strong>
+                            <span>List tractor & earn</span>
+                        </div>
+                    </label>
+                </div>
+
+                <form id="registerForm" class="login-form">
+                    <label for="fullName">Full Name</label>
+                    <input
+                        type="text"
+                        id="fullName"
+                        name="name"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        minlength="2"
+                        maxlength="80"
+                        required
+                    >
+
+                    <label for="username">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        name="username"
+                        placeholder="Choose a username"
+                        autocomplete="username"
+                        minlength="3"
+                        maxlength="20"
+                        pattern="[A-Za-z0-9_]{3,20}"
+                        title="3-20 letters, numbers or underscores"
+                        required
+                    >
+
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                    <label for="phone">Mobile Number</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="10-digit mobile number"
+                        pattern="[0-9]{10}"
+                        required
+                    >
+
+                    <label for="password">Password</label>
+                    <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Create a password (8+ characters)"
+                        autocomplete="new-password"
+                        minlength="8"
+                        maxlength="72"
+                        required
+                    >
+
+                    <label class="show-password">
+                        <input type="checkbox" id="showPassword">
+                        <span>Show password</span>
+                    </label>
+
+                    <button type="submit" class="login-button">
+                        Register as Farmer Customer →
+                    </button>
+
+                    <p
+                        id="registerMessage"
+                        class="login-message"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </form>
+
+                <p class="login-note">
+                    Already registered?
+                    <a href="login.html">Login here</a>
+                </p>
+            </div>
+
+            <p class="panel-footer">
+                © 2026 FarmEazy Agri-Machinery Services
+            </p>
+        </section>
+    </main>
+
+    <script src="auth.js"></script>
+</body>
+
+</html>

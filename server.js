@@ -1179,10 +1179,30 @@ async function startServer() {
     saveDatabase();
     seedMachineryIfEmpty();
 
-    app.listen(PORT, () => {
+    const server = app.listen(PORT, () => {
       console.log(`FarmEazy server running at http://localhost:${PORT}`);
       console.log("Database:", databasePath);
     });
+
+    server.on("error", (err) => {
+      if (err.code === "EADDRINUSE") {
+        console.error(`Port ${PORT} is already in use by another process. Please close it and try again.`);
+      } else {
+        console.error("Server error:", err);
+      }
+    });
+
+    const gracefulExit = () => {
+      try {
+        if (db) saveDatabase();
+      } catch (e) {}
+      server.close(() => {
+        process.exit(0);
+      });
+    };
+
+    process.on("SIGINT", gracefulExit);
+    process.on("SIGTERM", gracefulExit);
   } catch (error) {
     console.error("Could not start FarmEazy server:", error);
     process.exit(1);
@@ -1190,3 +1210,4 @@ async function startServer() {
 }
 
 startServer();
+
